@@ -1,0 +1,81 @@
+@import "./reset.scss";
+@import "./colors.scss";
+
+.nav__wrapper{
+    min-width: 1024px;
+    padding: 23px;
+    background-color: $bg-primary-default;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+.nav__list{
+    display: flex;
+    margin-right: 24px;
+}
+.nav__button-wrapper + .nav__button-wrapper{
+    margin-left: 24px;
+}
+.nav__button{
+    border: 1px solid #FFFFFF;
+    &:hover{
+        color: $border-active;
+        background-color: $bg-secondary-hover;
+    }
+    &:active{
+        background-color: $bg-secondary;
+        color: $border-active;
+    }
+}
+.nav__user-buttons{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    transition: .1s;
+    border-radius: 4px;
+    &:hover{
+        cursor: pointer;
+        border: 1px solid $bg-secondary;
+    }
+}
+.navActive{
+    background-color: $bg-secondary;
+    .nav__arrow{
+        svg {
+            color: $bg-secondary-active;
+        }
+    }
+}
+.nav__user-avatar{
+    margin-right: 8px;
+    border-radius: 50%;
+}
+.nav__arrow{
+    display: flex;
+    align-items: center;
+    svg {
+        width: 24px;
+        height: 24px;
+        color: white;
+    }
+}
+.nav__button-active{
+    background-color: $bg-secondary;
+    color: $border-active;
+}
+.nav__user-dropdown{
+    cursor: pointer;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    right: 23px;
+    bottom: -64px;
+    z-index: 1;
+}
+.nav__user-text + .nav__user-text{
+    margin-top: 16px;
+}

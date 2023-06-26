@@ -1,0 +1,21 @@
+@import "./colors.scss";
+@mixin button-icon-secondary{
+    // background: url(../assets/img/icons/dots.svg) no-repeat center;
+    padding: 0;
+    width: 42px;
+    height: 42px;
+    border: 1px solid $border-default;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .3s;
+    &:hover{
+        background-color: $bg-secondary-hover;
+    }
+    &:active{
+        background-color: $bg-secondary-active;
+        border-color:$border-active;
+    }
+}
+.button-icon-secondary{
+    @include button-icon-secondary;
+}
