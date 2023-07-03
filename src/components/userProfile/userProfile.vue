@@ -2,33 +2,30 @@
     <div class="user__item">
         <div class="user-avatar">
             <img src="@/assets/img/big-user-avatar.png" alt="" class="user-img">
-            <button class="button-icon-secondary user-avatar-btn-wrapper" @click="isActive = !isActive">
-                <svg class="user-avatar-btn">
-                    <icon></icon>
-                </svg>
-            </button>
-            <div v-show="isActive" class="user-dropDown">
-                    <p class="user__drop-down-text">Редактировать</p>
-                    <p class="user__drop-down-text">Удалить</p>
-            </div>
+
+            <primaryButton
+            class="button-icon-secondary user-avatar-btn-wrapper" 
+            :class="`small-button-secondary`"
+            :icon="true"
+            :BtnIconName="`icon-dots`"
+            @click.native="toggleDropDown"
+            />
+            <dropDown :items="dropDownAvatarItems" class="user-dropDown" v-show="isActive"> </dropDown>
         </div>
         <div class="user-info">
             <div class="user-title">
                 <div class="user-title__wrapper">
                     <h2 class="user-fullname">Котов Семен Васильевич</h2>
-                    <p class="user-status">Активен</p>
-                </div>
-                <button class="button-icon-secondary" @click="isActive = !isActive">
-                    <svg class="user-btn">
-                        <icon></icon>
-                    </svg>
-                </button>
-                <div v-show="isActive" class="user-title-dropDown">
-                    <p class="user-title__drop-down-text">Редактировать</p>
-                    <p class="user-title__drop-down-text">Изменить пароль</p>
-                    <p class="user-title__drop-down-text">Просмотр задач пользователя </p>
-                    <p class="user-title__drop-down-text">Удалить </p>
-                </div>
+                    <userStatus  :userText="`Активен`"/>
+                </div>  
+                <primaryButton 
+                @click.native="toggleDropDownUser" 
+                class="button-icon-secondary" 
+                :class="`small-button-secondary`"
+                :icon="true"
+                :BtnIconName="`icon-dots`"
+                />
+                <dropDown :items="dropDownItems" class="user-title-dropDown" v-show="Active"> </dropDown>
             </div>
             <div class="user-about">
                 <p class="user-about-subtitle">О себе:</p>
@@ -40,19 +37,44 @@
 
 <script>
 import icon from "@/components/icon.vue";
+import dropDown from '@/components/dropDown/dropDown.vue';
+import userStatus from '../userStatus/userStatus.vue';
+import primaryButton from '../primaryButton/primaryButton.vue';
 export default {
     name: "user-profile",
     components: {
         icon,
+        dropDown,
+        userStatus,
+        primaryButton
     },
+    methods:{
+    toggleDropDown(){
+        this.isActive = !this.isActive
+    },
+    toggleDropDownUser(){
+        this.Active = !this.Active
+    }
+  },
     data(){
         return{
             isActive: false,
+            Active: false,
+            dropDownItems: [
+                {text: "Редактировать"},
+                {text: "Изменить пароль"},
+                {text: "Просмотр задач пользователя"},
+                {text: "Удалить"},
+            ],
+            dropDownAvatarItems: [
+                {text: "Редактировать"},
+                {text: "Удалить"},
+            ]
         }
     }
 }
 </script>
 
 <style lang="scss">
-@import "@/styles/components/user-profile.scss";
+@import "@/components/userProfile/userProfile.scss";
 </style>

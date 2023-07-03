@@ -1,13 +1,17 @@
 <template>
-        <use class="icon" xlink:href="#icon-dots" />
+    <use class="icon" v-bind:xlink:href="`#`+ iconName" />
 </template>
 
 <script>
 export default {
+    props:{
+        iconName: {
+            type: String,
+        }
+    },
     name: `icon`,
     data(){
         return{
-
         }
     }
 }
