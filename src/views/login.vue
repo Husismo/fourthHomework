@@ -1,16 +1,8 @@
 <template>
     <div class="login">
-        <p>Статус: {{ login }}</p> 
-        <primaryButton
-        class="login-btn"
-        :class="`primary-button`" 
-        :btn-text="`Залогиниться`"
-        />
-        <primaryButton
-        class="unlogin-btn"
-        :class="`primary-button`"
-        :btn-text="`Разлогиниться`"
-        />
+        <button @click="login" class="login-btn" >Залогиниться</button>
+        <button @click="unlogin" class="unlogin-btn"> Разлогиниться</button>
+        
     </div>
 </template>
 
@@ -20,9 +12,16 @@ export default {
     components:{
         primaryButton
     },
+    methods:{
+        login(){
+            localStorage.setItem('login', true)
+        },
+        unlogin(){
+            localStorage.setItem('login', false)
+        }
+    },
     data(){
         return{
-            login: true
         }
     }
 }
@@ -34,5 +33,8 @@ export default {
     margin-left: 40%;
     display: flex;
     align-items: center;
+}
+.unlogin-btn, .login-btn{
+    margin-left: 20px;
 }
 </style>
