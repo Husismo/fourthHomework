@@ -2,19 +2,21 @@
     <div class="project__wrapper">
         <div class="project__container">
             <p class="project__title">{{ notCreatedText }}</p>
-            <primaryButton 
-              :class="`primary-button`" 
-              :btnText="`Добавить`">
-            </primaryButton>
+            <router-link to="/createtask">
+              <Buttons 
+                :class="`primary-button`" 
+                :btnText="`Добавить`">
+              </Buttons>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
-import primaryButton from '@/components/primaryButton/primaryButton.vue';
+import Buttons from '@/components/Buttons/Buttons.vue';
 export default {
   components:{
-    primaryButton,
+    Buttons,
   },
   props:{
     notCreatedText:{

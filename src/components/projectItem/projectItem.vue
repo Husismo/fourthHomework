@@ -12,15 +12,15 @@
                     </div>
                 </div>
             </div>
-            <primaryButton
+            <Buttons
             class="project-button project__item-btn"
             :class="`small-button-secondary`"
-            :icon="true"
+            :middleIcon="true"
             :BtnIconName="`icon-dots`"
             @click.native="toggleDropDown"
             >
                 
-            </primaryButton>
+            </Buttons>
             <dropDown :items="dropDownList" v-show="isActive" class="project__drop-down-menu"> </dropDown>
         </div>
 </template>
@@ -28,13 +28,13 @@
 <script>
 import icon from "@/components/icon.vue";
 import dropDown from '@/components/dropDown/dropDown.vue';
-import primaryButton from "../primaryButton/primaryButton.vue";
+import Buttons from "../Buttons/Buttons.vue";
 export default {
   name: 'projectItem',
   components: {
             icon,
             dropDown,
-            primaryButton
+            Buttons
         },
   props: {
     project: {
@@ -72,6 +72,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/components/projectItem/projectItem.scss";
 </style>

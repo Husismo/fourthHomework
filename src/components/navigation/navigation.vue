@@ -3,7 +3,7 @@
     <ul class="nav__list">
         <li class="nav__button-wrapper">
             <router-link to="/projects">
-                <primaryButton  
+                <Buttons  
                 class="nav__button" 
                 :class="`primary-button`" 
                 :btnText="`Проекты`"/>    
@@ -11,7 +11,7 @@
         </li>
         <li class="nav__button-wrapper">
             <router-link to="/tasks">
-                <primaryButton 
+                <Buttons 
                 class="nav__button" 
                 :class="`primary-button`" 
                 :btnText="`Задачи`"/>
@@ -20,7 +20,7 @@
         </li>
         <li class="nav__button-wrapper">
             <router-link to="/users">
-                <primaryButton 
+                <Buttons 
                 class="nav__button" 
                 :class="`primary-button`" 
                 :btnText="`Пользователи`"/>
@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import primaryButton from "@/components/primaryButton/primaryButton.vue";
+import Buttons from "@/components/Buttons/Buttons.vue";
 import dropDownBtn from "@/components/DropDownBtn/dropDownBtn.vue";
 import dropDown from '@/components/dropDown/dropDown.vue';
 
 export default {
     components: {
-        primaryButton,
+        Buttons,
         dropDownBtn,
         dropDown
     },

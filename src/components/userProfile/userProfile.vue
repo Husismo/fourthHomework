@@ -3,10 +3,10 @@
         <div class="user-avatar">
             <img src="@/assets/img/big-user-avatar.png" alt="" class="user-img">
 
-            <primaryButton
+            <Buttons
             class="button-icon-secondary user-avatar-btn-wrapper" 
             :class="`small-button-secondary`"
-            :icon="true"
+            :middleIcon="true"
             :BtnIconName="`icon-dots`"
             @click.native="toggleDropDown"
             />
@@ -18,11 +18,11 @@
                     <h2 class="user-fullname">Котов Семен Васильевич</h2>
                     <userStatus  :userText="`Активен`"/>
                 </div>  
-                <primaryButton 
+                <Buttons 
                 @click.native="toggleDropDownUser" 
                 class="button-icon-secondary" 
                 :class="`small-button-secondary`"
-                :icon="true"
+                :middleIcon="true"
                 :BtnIconName="`icon-dots`"
                 />
                 <dropDown :items="dropDownItems" class="user-title-dropDown" v-show="Active"> </dropDown>
@@ -39,14 +39,14 @@
 import icon from "@/components/icon.vue";
 import dropDown from '@/components/dropDown/dropDown.vue';
 import userStatus from '../userStatus/userStatus.vue';
-import primaryButton from '../primaryButton/primaryButton.vue';
+import Buttons from '../Buttons/Buttons.vue';
 export default {
     name: "user-profile",
     components: {
         icon,
         dropDown,
         userStatus,
-        primaryButton
+        Buttons
     },
     methods:{
     toggleDropDown(){
@@ -75,6 +75,89 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "@/components/userProfile/userProfile.scss";
+<style lang="scss" scoped>
+.user__item {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+}
+.user-avatar {
+    margin-right: 24px;
+    cursor: pointer;
+    position: relative;
+}
+.user-avatar:hover .user-avatar-btn-wrapper{
+    display: block;
+}
+.user-avatar-btn-wrapper{
+    display: none;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+.user-avatar-btn{
+    width: 24px;
+    height: 24px;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+.user-title__wrapper{
+    display: flex;
+    margin-bottom: 24px;
+}
+.user-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.user-fullname {
+    font-size: 24px;
+    margin-right: 24px;
+}
+.user-status {
+    color: $bg-secondary;
+    padding: 0 8px;
+    background-color: $bg-primary-default;
+    border-radius: 4px;
+}
+.user-btn {
+    height: 24px;
+    width: 24px;
+}
+.user-about-subtitle {
+    color: $font-disabled;
+    margin-bottom: 8px;
+}
+.user-about-text {
+    font-size: 14px;
+}
+.user-dropDown{
+    position: absolute;
+    bottom: -92px;
+    right: 10px;
+    background-color: #fff;
+    padding: 16px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.user-title-dropDown{
+    position: absolute;
+    top: 45px;
+    right: 2px;
+    background-color: #fff;
+    padding: 16px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.user-title__drop-down-text + .user-title__drop-down-text {
+    margin-top: 16px;
+}
+.user-title__drop-down-text:last-child{
+        color: $error-color;
+}
+.user__drop-down-text + .user__drop-down-text{
+    margin-top: 16px;
+    color: $error-color;
+}
 </style>

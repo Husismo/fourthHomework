@@ -3,7 +3,7 @@
         <router-link style="display: inline-block;"
             class="goBack__btn"
             to="/tasks" >
-                <primaryButton 
+                <Buttons 
                     :class="`secondary-button`" 
                     :btn-text="`Вернуться к списку задач`" 
                     :beforeTextIcon="true"
@@ -51,9 +51,9 @@
                     class="comments__input"
                     :placeHolderText="`Комментировать`"
                     />
-                    <primaryButton 
+                    <Buttons 
                     :class="`small-button-secondary`"
-                    :icon="true"
+                    :middleIcon="true"
                     :btn-icon-name="`icon-send`"
                     />
                 </div>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import primaryButton from '@/components/primaryButton/primaryButton.vue'
+import Buttons from '@/components/Buttons/Buttons.vue'
 import taskStatus from '@/components/taskStatus/taskStatus.vue'
 import inputText from '@/components/inputText/inputText.vue'
 export default {
@@ -87,7 +87,7 @@ export default {
         },
     },
     components:{
-        primaryButton,
+        Buttons,
         taskStatus,
         inputText
     }

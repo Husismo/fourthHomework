@@ -36,23 +36,28 @@
                 </div>
             </form>
             <div class="taskPage__buttons-wrapper">
-                <primaryButton 
-                :class="`secondary-button`" 
-                :btnText="`Отмена`"
-                />
-                <primaryButton 
+                <router-link to="/tasks" class="cancelBtn">
+                    <Buttons 
+                    :class="`secondary-button`" 
+                    :btnText="`Отмена`"
+                    />
+                </router-link>
+
+                
+                <Buttons 
                 :class="`primary-button`" 
                 :btnText="`Создать`"
                 form="createTask"
                 type="submit"
                 />
+                
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import primaryButton from '@/components/primaryButton/primaryButton.vue';
+import Buttons from '@/components/Buttons/Buttons.vue';
 import inputText from '@/components/inputText/inputText.vue';
 import customTextArea from '@/components/customTextArea/customTextArea.vue';
 import inputSelect from '@/components/inputSelect/inputSelect.vue';
@@ -60,7 +65,7 @@ export default {
     
     name: `createTaskPage`,
     components:{
-        primaryButton,
+        Buttons,
         inputText,
         customTextArea,
         inputSelect
@@ -167,9 +172,9 @@ export default {
     align-self: stretch;
     justify-content: flex-end;
     flex-grow: 1;
-    :last-child{
-        margin-left: 24px;
-    }
+}
+.cancelBtn{
+    margin-right: 24px;
 }
 
 </style>
