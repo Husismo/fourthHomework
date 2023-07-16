@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <navigation 
-      v-if="auth == true"
+      v-show="auth == true"
       />
     <router-view/>
   </div>

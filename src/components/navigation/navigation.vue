@@ -63,7 +63,7 @@ export default {
     methods:{
         logout(){
             localStorage.setItem('token', null)
-            this.$router.push(`/login`)
+            this.$router.push(`/`)
             localStorage.setItem('auth', false)
         },
         goToProfile(){

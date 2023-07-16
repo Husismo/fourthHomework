@@ -49,15 +49,16 @@ const routes = [
     component: notFound,
   },
   {
-    path: '/login',
+    path: "/",
     name: 'login',
     component: login,
   },
 ]
 
 const router = new VueRouter({
+  mode: `history`,
+  base: "/",
   routes,
-  mode: `history`
 })
 
 export default router

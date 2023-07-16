@@ -142,7 +142,7 @@ export default {
     beforeRouteEnter(to, from, next) {
         let auth = localStorage.getItem("auth");
         if (auth === "false") {
-            next("/login");
+            next("/");
         } else {
             next();
         }
