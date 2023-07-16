@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-      <navigation />
+      <navigation 
+      v-if="auth == true"
+      />
     <router-view/>
   </div>
 </template>
@@ -10,6 +12,11 @@ import navigation from './components/navigation/navigation.vue';
 export default{
       components:{
         navigation
+      },
+      data(){
+        return {
+          auth: JSON.parse(localStorage.getItem('auth')),
+        }
       }
 }
 </script>

@@ -17,7 +17,7 @@
                 <div class="task__name task__title">{{ name }}</div>
                 <div class="task__about__info">
                     <taskStatus 
-                    :taskText="`В работе`"
+                    :taskText="status"
                     class="task__status"
                     />
                     <p class="task__date">Создана 17 сен 2022 в 13:55</p>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="task__desc">
-                    <p>Описание задачи далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Вдали от всех живут они в буквенных домах на берегу Семантика большого языкового океана. Маленький ручеек Даль журчит по всей стране и обеспечивает ее всеми необходимыми правилами.</p>
+                    <p>{{ description }}</p>
                 </div>
                 <div class="task__activity task__title">
                     Активность
@@ -85,11 +85,25 @@ export default {
         author(){
             return this.$route.params.author
         },
+        description(){
+            return this.$route.params.description
+        },
+        status(){
+            return this.$route.params.status
+        }
     },
     components:{
         Buttons,
         taskStatus,
         inputText
+    },
+    beforeRouteEnter(to, from, next) {
+        let auth = localStorage.getItem("auth");
+        if (auth === "false") {
+            next("/login");
+        } else {
+            next();
+        }
     }
 }
 </script>

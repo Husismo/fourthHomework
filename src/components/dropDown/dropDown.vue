@@ -1,7 +1,9 @@
 <template>
     <ul class="dropDown">
         <DropDownItem
+            @click="onClick(item)"
             v-for="(item, index) in items"
+            :key="item.text"
         >
             {{ item.text }}
         </DropDownItem>
@@ -18,7 +20,12 @@ export default {
     props:{
         items:{
             type: Array,
-        }
+        },
+    },
+    methods:{
+        onClick(item) {
+        item.click();
+    },
     }
 }
 </script>

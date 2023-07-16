@@ -12,7 +12,7 @@
                 :key="option.value"
                 @click="selectOption(option)"
             >
-                {{ option.text }}
+                {{ option.name }}
             </p>
         </div>
     </div>

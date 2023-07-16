@@ -1,5 +1,6 @@
 <template>
-    <button v-bind:class="`[primary-button, secondary-button, small-button-primary, small-button-secondary]`">
+    <button 
+    v-bind:class="`[primary-button, secondary-button, small-button-primary, small-button-secondary]`">
         
         <svg 
         class="before-text-button-icon" 

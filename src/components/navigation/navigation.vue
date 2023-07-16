@@ -55,9 +55,19 @@ export default {
         return {
             isOpen: false,
             dropDownList: [
-            { text: "Профиль"},
-            { text: "Выход"},
+            {text: "Профиль", click: this.goToProfile},
+            {text: "Выход", click: this.logout},
             ],
+        }
+    },
+    methods:{
+        logout(){
+            localStorage.setItem('token', null)
+            this.$router.push(`/login`)
+            localStorage.setItem('auth', false)
+        },
+        goToProfile(){
+            this.$router.push(`/userpage`)
         }
     }
 }

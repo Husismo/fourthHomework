@@ -3,6 +3,7 @@
         <div class="login__wrapper">
             <p class="login__title">Вход</p>
             <form id="loginForm" @submit="postLogin">
+                <p class="login__failed" v-if="error == true">Неправильный логин или пароль.</p>
                 <p>Логин <span>*</span></p>
                 <input class="login__input" type="text"
                 @keypress.enter.prevent
@@ -37,11 +38,24 @@ export default {
     methods:{
         postLogin(event){
             event.preventDefault();
-            console.log(this.loginData);
+            this.$api.Auth.loginRequest({
+                login: this.loginData.login,
+                password: this.loginData.password})
+			.then(({data}) => {
+				console.log(data);
+                localStorage.setItem('token', JSON.stringify(data.token))
+                this.$router.push(`/projects`)
+                this.auth = localStorage.setItem('auth', true)
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
         }
     },
     data(){
         return{
+            error: false,
             loginData:{
                 login: "",
                 password: ""
@@ -113,5 +127,8 @@ export default {
 }
 .unlogin-btn, .login-btn{
     margin-left: 20px;
+}
+.login__failed{
+    color: $error-color;
 }
 </style>

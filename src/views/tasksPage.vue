@@ -1,9 +1,29 @@
 <template>
     <div class="taskpage">
+        <div class="search__wrapper" v-show="!isCreatePopupActive && !isEditPopupActive">
+                <inputText 
+                v-show="!isCreatePopupActive && !isEditPopupActive"
+                class="projectsPages__searh"
+                :iconClear="true"
+                :iconSearch="true"
+                @click="taskSearch"
+                v-model="searchData"
+                />
+                <router-link to="/createTask">
+                    <Buttons 
+                    v-show="!isCreatePopupActive && !isEditPopupActive"
+                    class="createProjectBtn"
+                    :class="`secondary-button`"
+                    :btnText="`Добавить`"
+                    />
+                </router-link>
+            </div>
         <taskItem 
         :task="item"
         v-for="item in tasks"/>
-        <notCreated v-if="tasks.length == 0" :notCreatedText="`Не создан ни одна задача`"/>
+        <notCreated v-if="isEmptyArray" 
+        :notCreatedText="`Не создан ни одна задача`"/>
+        <h1 v-show="!isCreatePopupActive && !isEditPopupActive" v-if="isEmptySearch">Ни один проект не соответствует результатам поиска</h1>
     </div>
 </template>
 
@@ -11,63 +31,78 @@
 import navigation from "@/components/navigation/navigation.vue";
 import taskItem from '@/components/taskItem/taskItem.vue';
 import notCreated from "@/components/notCreated/notCreated.vue";
+import inputText from "@/components/inputText/inputText.vue";
+import Buttons from "@/components/Buttons/Buttons.vue";
+
 
 export default {
     name: "tasks-page",
     components: { 
         taskItem,
         navigation,
-        notCreated 
+        notCreated,
+        inputText,
+        Buttons 
+    },
+    methods:{
+        getAllProjects(){
+            this.$api.getAllTasks.getAllTasks({
+                limit: 9999,
+            }).then(({data}) => {
+                console.log(data)
+                if(data.tasks.length == 0){
+                    this.isEmptyArray = true
+                }else {
+                    this.tasks = data.tasks
+                }
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+        },
+        taskSearch(){
+            this.$api.getAllTasks.getAllTasks({
+                limit: 9999,
+                filter:{
+                    name: this.searchData
+                }
+            }).then(({data}) => {
+                console.log(data)
+                if(data.tasks.length == 0){
+                    this.tasks = data.tasks
+                    this.isEmptySearch = true
+                }else{
+                    this.tasks = data.tasks
+                    this.isEmptySearch = false
+                }
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+        },
+        
+    },
+    mounted(){
+        this.getAllProjects()
     },
     data(){
         return{
-            tasks: [
-            {
-                name: `Первая крутая задача`,
-                author: `Денис`,
-                authorEdited: null,
-                dateCreated: `23.05.2023`,
-                dateEdited: null,
-                id: `1`,
-                status: `DRAFT`,
-            },
-            {
-                author: `Котов`,
-                authorEdited: null,
-                dateCreated: `23.05.2023`,
-                dateEdited: null,
-                name: `Вторая крутая задача`,
-                id: `2`,
-                status: `DRAFT`,
-            },
-            {
-                author: `Кто-то Ктоев`,
-                authorEdited: null,
-                dateCreated: `23.05.2023`,
-                dateEdited: null,
-                name: `Третья крутая задача`,
-                id: `3`,
-                status: `DRAFT`,
-            },
-            {
-                author: `Ктото такой`,
-                authorEdited: null,
-                dateCreated: `23.05.2023`,
-                dateEdited: null,
-                name: `Четвертая крутая задача`,
-                id: `4`,
-                status: `DRAFT`,
-            },
-            {
-                author: `Денис`,
-                authorEdited: null,
-                dateCreated: `23.05.2023`,
-                dateEdited: null,
-                name: `Пятая крутая задача`,
-                id: `5`,
-                status: `DRAFT`,
-            },
-        ]
+            tasks: [],
+            isCreatePopupActive: false,
+            isEditPopupActive: false,
+            searchData: '',
+            isEmptySearch: false,
+            isEmptyArray: false,
+        }
+    },
+    beforeRouteEnter(to, from, next) {
+        let auth = localStorage.getItem("auth");
+        if (auth === "false") {
+            next("/login");
+        } else {
+            next();
         }
     }
 }

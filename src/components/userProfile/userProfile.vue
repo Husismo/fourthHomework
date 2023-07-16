@@ -2,7 +2,6 @@
     <div class="user__item">
         <div class="user-avatar">
             <img src="@/assets/img/big-user-avatar.png" alt="" class="user-img">
-
             <Buttons
             class="button-icon-secondary user-avatar-btn-wrapper" 
             :class="`small-button-secondary`"
@@ -15,8 +14,8 @@
         <div class="user-info">
             <div class="user-title">
                 <div class="user-title__wrapper">
-                    <h2 class="user-fullname">Котов Семен Васильевич</h2>
-                    <userStatus  :userText="`Активен`"/>
+                    <h2 class="user-fullname">{{user.name}}</h2>
+                    <userStatus  :userText="user.status"/>
                 </div>  
                 <Buttons 
                 @click.native="toggleDropDownUser" 
@@ -54,6 +53,22 @@ export default {
     },
     toggleDropDownUser(){
         this.Active = !this.Active
+    },
+  },
+  props:{
+    user: {
+        name:{
+            type: String,
+        },
+        status: {
+            type: String,
+        },
+        picture: {
+            type: String,
+        },
+        description:{
+            type: String,
+        },
     }
   },
     data(){
@@ -69,7 +84,7 @@ export default {
             dropDownAvatarItems: [
                 {text: "Редактировать"},
                 {text: "Удалить"},
-            ]
+            ],            
         }
     }
 }

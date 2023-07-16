@@ -1,5 +1,7 @@
 <template>
-    <li :class="['item']"> 
+    <li 
+    v-on="$listeners"
+    :class="['item']"> 
     <slot></slot>
     </li>
 </template>

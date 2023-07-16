@@ -4,7 +4,7 @@
         <div class="taskPage__wrapper">
             <form class="taskPage__form" id="createTask" @submit="submitForm">
                 <div class="form-name__wrapper">
-                    <p class="form-name">Название <span>*</span></p>
+                    <p class="form-name">Название<span>*</span></p>
                     <inputText 
                     :placeHolderText="`Введите текст...`"
                     v-model="taskData.name"
@@ -18,7 +18,7 @@
                     />
                 </div>
                 <div class="form-select-project__wrapper">
-                    <p class="form-project">Проект <span>*</span></p>
+                    <p class="form-project">Проект<span>*</span></p>
                     <inputSelect 
                     
                     :options="selectProject" 
@@ -72,34 +72,79 @@ export default {
     },
     data(){
         return{
-            selectAuthor: [
-                {text: `Я`, value: `Я`},
-                {text: `Котов А.И.`, value: `Котов А.И.`},
-                {text: `Иванов А.И.`, value: `Иванов А.И.`}
-            ],
-            selectProject:[
-                {text: `Проект 1`, value: `Проект 1`},
-                {text: `Проект 2`, value: `Проект 2`},
-                {text: `Проект 3`, value: `Проект 3`},
-            ],
+            selectAuthor: [],
+            selectProject:[],
             taskData: {
                 name: "",
                 desc: "",
                 selectedProject: "Выберите проект",
-                selectedAuthor: "Выберите автора"
+                selectedAuthor: "Выберите автора",
+                projectId: '',
+                executor: ''
             }
         }
     },
     methods: {
         optionSelectAuthor(option){
-            this.taskData.selectedAuthor = option.text
+            this.taskData.selectedAuthor = option.name
+            this.taskData.projectId = option._id
         },
         optionSelectProject(option){
-            this.taskData.selectedProject = option.text
+            this.taskData.selectedProject = option.name
+            this.taskData.executor = option.executor
         },
         submitForm(event){
+            console.log(this.taskData)
             event.preventDefault();
-            console.log(this.taskData);
+            this.$api.createTask.createTask({
+                name: this.taskData.name,
+                description: this.taskData.desc,
+                projectId: this.taskData.projectId,
+                // executor: this.taskData.executor
+            }).then(({data}) => {
+                this.goToBack()
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+        },
+        goToBack(){
+            this.$router.go(-1);
+        },
+        getAllUsers(){
+            this.$api.getAllUsers.getAllUsers({
+                limit: 9999,
+            }).then(({data}) => {
+                this.selectAuthor = data.users
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+        },
+        getAllProjects(){
+            this.$api.getAllProjects.getAllProjects({
+                limit: 9999,
+            }).then(({data}) => {
+                this.selectProject = data.projects
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+        },
+    },
+    mounted(){
+        this.getAllUsers(),
+        this.getAllProjects()
+    },
+    beforeRouteEnter(to, from, next) {
+        let auth = localStorage.getItem("auth");
+        if (auth === "false") {
+            next("/login");
+        } else {
+            next();
         }
     }
 }
@@ -118,7 +163,7 @@ export default {
     font-weight: 600;
     margin-bottom: 90px;
     position: relative;
-    
+    text-align: left;
 }
 .taskPage__title::after{
     content: "";

@@ -1,21 +1,44 @@
 <template>
     <div class="users">
-        <userItem></userItem>
-        <userItem></userItem>
-        <userItem></userItem>
+        <userItem
+            :user="user"
+            v-for="user in allUsers"
+            :key="user.name"
+        />
     </div>
 </template>
 
 <script>
 import userItem from '@/components/userItem/userItem.vue'
 export default {
+    name: 'userPage',
     components:{
         userItem,
     },
-
+    methods:{
+        getAllUsers(){
+            this.$api.getAllUsers.getAllUsers({
+                limit: 9999,
+            }).then(({data}) => {
+                this.allUsers = data.users
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+        }
+    },
+    mounted(){
+        this.getAllUsers()
+    },
+    data(){
+        return{
+            allUsers: []
+        }
+    },
     beforeRouteEnter(to, from, next) {
-        let isAuth = localStorage.getItem("login");
-        if (isAuth === "false") {
+        let auth = localStorage.getItem("auth");
+        if (auth === "false") {
             next("/login");
         } else {
             next();

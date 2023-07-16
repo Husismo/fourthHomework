@@ -1,6 +1,15 @@
 <template>
         <div class="task__item">
-            <router-link class="task__item-wrapper" :to="{name: 'task', params: {id: task.id, name: task.name, author: task.author}}" >
+            <router-link class="task__item-wrapper" 
+            :to="{
+                name: 'task', 
+                params: {
+                    id: task._id, 
+                    name: task.name, 
+                    author: task.author,
+                    status: task.status,
+                    description: task.description
+                }}" >
                     <div class="task__item-head">
                         <p class="task__item-title">{{ task.name }}</p>
                         <img src="@/assets/img/user-avatar.png" alt="" class="task__item-avatar">
@@ -8,11 +17,11 @@
                     <div class="task__item-content">
                         <div class="task__item-about">
                             <p class="task__item-id">{{ task.id }}</p>
-                            <p class="task__item-created">{{task.author}} создал 1 час назад</p>
-                            <p class="task__item-status item-status-draft">Черновик</p>
+                            <p class="task__item-created">{{task.author}} {{ date }}</p>
+                            <p class="task__item-status item-status-draft">{{task.status}}</p>
                         </div>
                         <div class="task__item-content-edited">
-                            <p>Баранов В.В. изменил(а) 1 минуту назад</p>
+                            <p v-show="task.authorEdited">{{  task.authorEdited }} изменил(а) {{dateEdited}}</p>
                         </div>
                     </div>
             </router-link>
@@ -41,6 +50,50 @@ export default {
   methods: {
     toggleDropDown(){
         this.isActive = !this.isActive
+    },
+    deleteTask(){
+        this.$api.deleteTask.deleteTask(this.task._id)
+        .then(({data}) => {
+                this.$router.go(0);
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+    },
+    normalDate(){
+        let date = Date.parse(this.task.dateCreated);
+        let today = new Date().getTime();
+        let diff = today - date;
+        let min = Math.floor(diff / 60000);
+        if (min < 60) {
+           this.date = min + ' минут назад';
+        };
+        let hour = Math.floor(diff / 3600000);
+        if (hour < 12 && min > 60) {
+            this.date = hour + ' часов назад';
+        };
+        let day = Math.floor(diff / 36000000);
+        if (day < 24 && hour > 12) {
+            this.date = day + ' дней назад';
+        };
+    },
+    normalDateEdited(){
+        let date = Date.parse(this.task.dateEdited);
+        let today = new Date().getTime();
+        let diff = today - date;
+        let min = Math.floor(diff / 60000);
+        if (min < 60) {
+           this.dateEdited = min + ' минут назад';
+        };
+        let hour = Math.floor(diff / 3600000);
+        if (hour < 12 && min > 60) {
+            this.dateEdited = hour + ' часов назад';
+        };
+        let day = Math.floor(diff / 36000000);
+        if (day < 24 && hour > 12) {
+            this.dateEdited = day + ' дней назад';
+        };
     }
   },
   data(){
@@ -48,8 +101,10 @@ export default {
         isActive: false,
         dropDownList:[
             {text: `Редактировать`},
-            {text: `Удалить`}
-        ]
+            {text: `Удалить`, click: this.deleteTask}
+        ],
+        date: '',
+        dateEdited: ''
     }
   },
   props: {
@@ -62,8 +117,30 @@ export default {
         },
         author: {
             type: String,
+        },
+        authorEdited:{
+            type: String
+        },
+        dateCreated:{
+            type: String
+        },
+        task:{
+            type: String
+        },
+        status:{
+            type: String
+        },
+        description:{
+            type: String
+        },
+        dateEdited:{
+            type: String
         }
-    }
+    },
+  },
+  mounted(){
+    this.normalDate(),
+    this.normalDateEdited()
   }
 }
 </script>

@@ -1,6 +1,8 @@
 <template>
     <div class="user-page">
-        <userProfile></userProfile>
+        <userProfile 
+        :user="user"
+        />
     </div>
 </template>
 
@@ -12,6 +14,36 @@ export default {
     components: {
         userProfile,
         navigation
+    },
+    data(){
+        return{
+            user: {}
+        }
+    },
+    methods:{
+        sendRequest(){
+        this.$api.getCurrentUser.getCurrentUser({
+            }).then(({data}) => {
+                console.log(data)
+                this.user = data
+			})
+			.catch(e => {
+				console.log(e)
+                this.error = true
+			})
+    }
+    },
+    mounted(){
+        this.sendRequest()
+    },
+    
+    beforeRouteEnter(to, from, next) {
+        let auth = localStorage.getItem("auth");
+        if (auth === "false") {
+            next("/login");
+        } else {
+            next();
+        }
     }
 }
 </script>
